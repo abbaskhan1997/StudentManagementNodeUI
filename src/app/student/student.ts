@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 import { StudentService } from '../services/student.service';
 import { ChangeDetectorRef } from '@angular/core';
 import { Student as StudentModel } from '../models/student';
+import { FormsModule } from '@angular/forms';
 
 @Component({
-  imports: [],
+  imports: [FormsModule],
   selector: 'app-student',
   styleUrl: './student.css',
   templateUrl: './student.html',
@@ -15,6 +16,15 @@ export class Student {
  }
 students: StudentModel[] = [];
 selectedStudent: StudentModel | null = null;
+
+formStudent: StudentModel = {
+  name: '',
+  email: '',
+  phone: '',
+  age: 0,
+  course: '',
+  gender: ''
+};
 
 
 
@@ -42,6 +52,7 @@ selectedStudent: StudentModel | null = null;
  
  editStudent(student: StudentModel) {
    this.selectedStudent = student;
+    this.formStudent = { ...student };
  }
 
   updateStudent(id: string, student: StudentModel) {
