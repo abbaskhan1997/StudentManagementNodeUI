@@ -1,0 +1,46 @@
+<h2>Students</h2>
+
+<h2>Add Student</h2>
+
+<input #name placeholder="Name" [value]="selectedStudent?.name || ''">
+<input #email placeholder="Email" [value]="selectedStudent?.email || ''">
+<input #phone placeholder="Phone" [value]="selectedStudent?.phone || ''">
+<input #age type="number" placeholder="Age" [value]="selectedStudent?.age || ''">
+<input #course placeholder="Course" [value]="selectedStudent?.course || ''">
+<input #gender placeholder="Gender" [value]="selectedStudent?.gender || ''">
+
+<button (click)="addStudent({
+  name: name.value,
+  email: email.value,
+  phone: phone.value,
+  age: +age.value,
+  course: course.value,
+  gender: gender.value
+})">
+  Add Student
+</button>
+
+@if (selectedStudent){
+<button (click)="updateStudent(selectedStudent._id!, {
+  _id: selectedStudent._id,
+  name: name.value,
+  email: email.value,
+  phone: phone.value,
+  age: +age.value,
+  course: course.value,
+  gender: gender.value
+})">
+  Update Student
+</button>
+}
+
+<ul>
+  @for (student of students; track student._id) {
+    <li>
+      {{ student.name }} - {{ student.email }} - {{ student.phone }} - {{ student.age }} - {{ student.course }} - {{ student.gender }}
+      <button (click)="editStudent(student)">Edit</button>
+      <button (click)="deleteStudent(student._id!)">Delete</button>
+    </li>
+
+  }
+</ul>
