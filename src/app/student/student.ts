@@ -11,76 +11,77 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './student.html',
 })
 export class Student {
- constructor(private studentService: StudentService, private cdr: ChangeDetectorRef) {
-  this.getStudents();
- }
-students: StudentModel[] = [];
-selectedStudent: StudentModel | null = null;
+  constructor(
+    private studentService: StudentService,
+    private cdr: ChangeDetectorRef,
+  ) {
+    this.getStudents();
+  }
+  students: StudentModel[] = [];
+  selectedStudent: StudentModel | null = null;
 
-formStudent: StudentModel = {
-  name: '',
-  email: '',
-  phone: '',
-  age: 0,
-  course: '',
-  gender: ''
-};
-
-cancelEdit() {
-  this.selectedStudent = null;
-  this.formStudent = {
+  formStudent: StudentModel = {
     name: '',
     email: '',
     phone: '',
     age: 0,
     course: '',
-    gender: ''
+    gender: '',
   };
-}
 
+  resetForm() {
+    this.formStudent = {
+      name: '',
+      email: '',
+      phone: '',
+      age: 0,
+      course: '',
+      gender: '',
+    };
+    this.selectedStudent = null;
+  }
 
+  cancelEdit() {
+    this.resetForm();
+  }
 
- getStudents() {
-   this.studentService.getStudents().subscribe((students) => {
-     this.students = students;
-     console.log('Students:', this.students);
-     this.cdr.detectChanges(); // Trigger change detection to update the view
-   });
- }
+  getStudents() {
+    this.studentService.getStudents().subscribe((students) => {
+      this.students = students;
 
- getStudentById(id: number) {
-   this.studentService.getStudentById(id).subscribe((student) => {
-     console.log('Student:', student);
-   });
- }
+      this.cdr.detectChanges(); // Trigger change detection to update the view
+    });
+  }
 
- addStudent(student: StudentModel) {
-   this.studentService.addStudent(student).subscribe((newStudent) => {
-     console.log('New Student:', newStudent);
-     this.getStudents(); // Refresh the list after creating a new student
-     this.cdr.detectChanges(); // Trigger change detection to update the view
-   });
- }
- 
- editStudent(student: StudentModel) {
-   this.selectedStudent = student;
+  getStudentById(id: number) {
+    this.studentService.getStudentById(id).subscribe((student) => {});
+  }
+
+  addStudent(student: StudentModel) {
+    this.studentService.addStudent(student).subscribe((newStudent) => {
+      this.getStudents(); // Refresh the list after creating a new student
+      this.cdr.detectChanges(); // Trigger change detection to update the view
+      this.resetForm(); // Reset the form after adding a student
+    });
+  }
+
+  editStudent(student: StudentModel) {
+    this.selectedStudent = student;
     this.formStudent = { ...student };
- }
+  }
 
   updateStudent(id: string, student: StudentModel) {
     this.studentService.updateStudent(id, student).subscribe((updatedStudent) => {
-      console.log('Updated Student:', updatedStudent);
       this.getStudents(); // Refresh the list after updating a student
       this.cdr.detectChanges(); // Trigger change detection to update the view
+      this.cancelEdit(); // Reset the form and cancel edit mode
     });
- }
+  }
 
- deleteStudent(id: string) {
-   this.studentService.deleteStudent(id).subscribe(() => {
-     console.log('Deleted Student with ID:', id);
-     this.getStudents(); // Refresh the list after deleting a student
-     this.cdr.detectChanges(); // Trigger change detection to update the view
-   });
- }
-
+  deleteStudent(id: string) {
+    this.studentService.deleteStudent(id).subscribe(() => {
+      this.getStudents(); // Refresh the list after deleting a student
+      this.cdr.detectChanges(); // Trigger change detection to update the view
+    });
+  }
 }
