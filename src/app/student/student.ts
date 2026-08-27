@@ -26,6 +26,18 @@ formStudent: StudentModel = {
   gender: ''
 };
 
+cancelEdit() {
+  this.selectedStudent = null;
+  this.formStudent = {
+    name: '',
+    email: '',
+    phone: '',
+    age: 0,
+    course: '',
+    gender: ''
+  };
+}
+
 
 
  getStudents() {
