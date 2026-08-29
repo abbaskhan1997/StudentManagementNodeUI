@@ -19,4 +19,12 @@ export class AuthService {
   );
 }
 
+register(name: string, email: string, password: string): Observable<any> {
+  return this.http.post('http://localhost:3000/api/auth/register', {
+    name,
+    email,
+    password
+  }); 
+}
+
 }
