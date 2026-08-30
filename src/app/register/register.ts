@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
+import {Router} from '@angular/router'
 
 @Component({
   imports: [ReactiveFormsModule],
@@ -13,7 +14,8 @@ export class Register {
   registerForm;
 
   constructor(private fb: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {
 
     this.registerForm = this.fb.group({
@@ -28,10 +30,12 @@ export class Register {
      const name = this.registerForm.value.name ?? '';
   const email = this.registerForm.value.email ?? '';
   const password = this.registerForm.value.password ?? '';
+
     this.authService.register(name, email, password).subscribe({
       next: (response) => {
         console.log('Registration successful', response);
         this.registerForm.reset();
+        this.router.navigate(['/login']);
       },
       error: (error) => {
         console.error('Registration failed', error);

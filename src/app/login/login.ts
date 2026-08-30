@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {Router} from '@angular/router'
 
 @Component({
   imports: [ReactiveFormsModule],
@@ -9,7 +10,9 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
   templateUrl: './login.html',
 })
 export class Login {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService,
+    private router:Router
+  ) {}
   loginForm = new FormGroup({
     email: new FormControl(''),
     password: new FormControl(''),
@@ -22,6 +25,7 @@ export class Login {
       next: (response) => {
         console.log('Login successful:', response);
         localStorage.setItem('token', response.token);
+         this.router.navigate(['/students']);
       },
       error: (error) => {
         console.error('Login failed:', error);
