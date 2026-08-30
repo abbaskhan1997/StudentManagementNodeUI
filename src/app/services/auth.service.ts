@@ -27,4 +27,8 @@ register(name: string, email: string, password: string): Observable<any> {
   }); 
 }
 
+logout(){
+  localStorage.removeItem('token');
+}
+
 }

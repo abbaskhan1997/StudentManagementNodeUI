@@ -3,6 +3,8 @@ import { StudentService } from '../services/student.service';
 import { ChangeDetectorRef } from '@angular/core';
 import { Student as StudentModel } from '../models/student';
 import { FormsModule } from '@angular/forms';
+import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   imports: [FormsModule],
@@ -14,6 +16,8 @@ export class Student {
   constructor(
     private studentService: StudentService,
     private cdr: ChangeDetectorRef,
+    private authservice: AuthService,
+    private router: Router
   ) {
     this.getStudents();
   }
@@ -43,6 +47,11 @@ export class Student {
 
   cancelEdit() {
     this.resetForm();
+  }
+
+  logout(){
+    this.authservice.logout();
+    this.router.navigate(['/login']);
   }
 
   getStudents() {
