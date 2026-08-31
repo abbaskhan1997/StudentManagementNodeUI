@@ -28,6 +28,6 @@ export class StudentService {
   }
 
   deleteStudent(id: string) {
-    return this.http.delete(`${this.apiUrl}/${id}`);
+    return this.http.delete<{ message: string }>(`${this.apiUrl}/${id}`);
   }
 }

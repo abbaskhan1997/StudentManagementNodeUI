@@ -24,6 +24,9 @@ export class Student {
   students: StudentModel[] = [];
   selectedStudent: StudentModel | null = null;
 
+  message ="";
+  
+
   formStudent: StudentModel = {
     name: '',
     email: '',
@@ -88,7 +91,13 @@ export class Student {
   }
 
   deleteStudent(id: string) {
-    this.studentService.deleteStudent(id).subscribe(() => {
+     const confirmDelete = confirm('Are you sure you want to delete this student?');
+
+  if (!confirmDelete) {
+    return;
+  }
+    this.studentService.deleteStudent(id).subscribe((response) => {
+       this.message = response.message;
       this.getStudents(); // Refresh the list after deleting a student
       this.cdr.detectChanges(); // Trigger change detection to update the view
     });
