@@ -17,15 +17,14 @@ export class Student {
     private studentService: StudentService,
     private cdr: ChangeDetectorRef,
     private authservice: AuthService,
-    private router: Router
+    private router: Router,
   ) {
     this.getStudents();
   }
   students: StudentModel[] = [];
   selectedStudent: StudentModel | null = null;
 
-  message ="";
-  
+  message = '';
 
   formStudent: StudentModel = {
     name: '',
@@ -52,7 +51,7 @@ export class Student {
     this.resetForm();
   }
 
-  logout(){
+  logout() {
     this.authservice.logout();
     this.router.navigate(['/login']);
   }
@@ -91,13 +90,13 @@ export class Student {
   }
 
   deleteStudent(id: string) {
-     const confirmDelete = confirm('Are you sure you want to delete this student?');
+    const confirmDelete = confirm('Are you sure you want to delete this student?');
 
-  if (!confirmDelete) {
-    return;
-  }
+    if (!confirmDelete) {
+      return;
+    }
     this.studentService.deleteStudent(id).subscribe((response) => {
-       this.message = response.message;
+      this.message = response.message;
       this.getStudents(); // Refresh the list after deleting a student
       this.cdr.detectChanges(); // Trigger change detection to update the view
     });
